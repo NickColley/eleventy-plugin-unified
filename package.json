@@ -1,8 +1,8 @@
 {
   "type": "module",
   "name": "eleventy-plugin-unified",
-  "version": "0.0.1",
-  "description": "Plugin to integrate the unified ecosystem into Eleventy",
+  "version": "0.0.2",
+  "description": "Use the unified ecosystem in Eleventy with remark and rehype.",
   "main": ".eleventy.cjs",
   "scripts": {
     "test": "npm run lint && npm run ava",
