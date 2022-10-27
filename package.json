@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "name": "eleventy-plugin-unified",
+  "version": "0.0.1",
+  "description": "Plugin to integrate the unified ecosystem into Eleventy",
+  "main": ".eleventy.cjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "remark",
+    "rehype",
+    "unified"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "rehype-parse": "^8.0.4",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2"
+  }
+}
