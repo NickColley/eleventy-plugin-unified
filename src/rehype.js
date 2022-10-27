@@ -5,7 +5,7 @@ import importPlugins from "./import-plugins.js";
 
 export default async function (
   html,
-  { htmlTransforms, transformsDirectory, pageContext, eleventyConfig }
+  { htmlTransforms, transformsDirectory, pageContext, eleventyConfig } = {}
 ) {
   const output = await unified()
     // Turn HTML into HTML AST (hast)

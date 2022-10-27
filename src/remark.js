@@ -7,7 +7,7 @@ import importPlugins from "./import-plugins.js";
 
 export default async function (
   markdown,
-  { markdownTransforms, transformsDirectory, pageContext, eleventyConfig }
+  { markdownTransforms, transformsDirectory, pageContext, eleventyConfig } = {}
 ) {
   const output = await unified()
     // Turn Markdown text into Markdown syntax tree
