@@ -5,7 +5,9 @@
   "description": "Plugin to integrate the unified ecosystem into Eleventy",
   "main": ".eleventy.cjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint && npm run ava",
+    "ava": "c8 --100 ava",
+    "lint": "eslint src/**/*.cjs src/**/*.js .eleventy.cjs && prettier --check src/**/*.cjs src/**/*.js .eleventy.cjs"
   },
   "keywords": [
     "eleventy",
@@ -14,12 +16,51 @@
     "rehype",
     "unified"
   ],
+  "repository": "NickColley/eleventy-plugin-unified",
   "license": "MIT",
+  "engines": {
+    "node": "^12.17 || ^13.7 || >= 14"
+  },
+  "files": [
+    "src",
+    ".eleventy.cjs"
+  ],
   "dependencies": {
     "rehype-parse": "^8.0.4",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "unified": "^10.1.2"
+  },
+  "devDependencies": {
+    "ava": "^5.0.1",
+    "c8": "^7.12.0",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:n/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error"
+    },
+    "parserOptions": {
+      "ecmaVersion": 2022
+    },
+    "ignorePatterns": [
+      "!.eleventy.cjs"
+    ]
   }
 }
