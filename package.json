@@ -1,13 +1,15 @@
 {
   "type": "module",
   "name": "eleventy-plugin-unified",
-  "version": "0.0.2",
+  "version": "0.0.0-development",
   "description": "Use the unified ecosystem in Eleventy with remark and rehype.",
   "main": ".eleventy.cjs",
   "scripts": {
     "test": "npm run lint && npm run ava",
     "ava": "c8 --100 ava",
-    "lint": "eslint src/**/*.cjs src/**/*.js .eleventy.cjs && prettier --check src/**/*.cjs src/**/*.js .eleventy.cjs"
+    "lint": "eslint src/**/*.cjs src/**/*.js .eleventy.cjs && prettier --check src/**/*.cjs src/**/*.js .eleventy.cjs",
+    "semantic-release": "semantic-release",
+    "commit": "commit"
   },
   "keywords": [
     "eleventy",
@@ -16,7 +18,11 @@
     "rehype",
     "unified"
   ],
-  "repository": "NickColley/eleventy-plugin-unified",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NickColley/eleventy-plugin-unified.git"
+  },
+  "homepage": "https://github.com/NickColley/eleventy-plugin-unified#readme",
   "license": "MIT",
   "engines": {
     "node": "^12.17 || ^13.7 || >= 14"
@@ -33,13 +39,38 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@commitlint/prompt-cli": "^17.1.2",
     "ava": "^5.0.1",
     "c8": "^7.12.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "semantic-release": "^19.0.5"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "eslintConfig": {
     "env": {
