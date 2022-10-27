@@ -1,5 +1,7 @@
 # Eleventy Plugin Unified
 
+[![past latest npm version](https://img.shields.io/npm/v/eleventy-plugin-unified.svg)](https://www.npmjs.com/package/eleventy-plugin-unified)
+
 Use the [unified](https://unifiedjs.com/) ecosystem in Eleventy.
 
 You can render and transform:
