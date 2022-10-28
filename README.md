@@ -54,6 +54,8 @@ It will render like this:
 [retext-english]: https://www.npmjs.com/package/retext-english
 [vfile reporter]: https://github.com/vfile/vfile#reporters
 
+---
+
 ## Documentation
 
 ### [Configure options for transforms](#configure-options-for-transforms-1)
@@ -104,6 +106,9 @@ eleventyConfig.addPlugin(EleventyUnifiedPlugin, {
 });
 ```
 
-## Acknowledgements
+---
 
-Inspired by [florianeckerstorfer/eleventy-plugin-remark](https://github.com/florianeckerstorfer/eleventy-plugin-remark)
+## With thanks to
+
+- [Titus for the Unified ecosystem](https://twitter.com/wooorm)
+- [florianeckerstorfer/eleventy-plugin-remark](https://github.com/florianeckerstorfer/eleventy-plugin-remark)
