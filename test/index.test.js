@@ -9,11 +9,14 @@ test("setLibrary › renders markdown", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
       setLibrary: async (type, { render }) => {
-        assert.is(await render("# Hello, world"), "<h1>Hello, world</h1>");
+        assert.is(
+          await render("# Hello, world"),
+          '<h1 id="hello-world">Hello, world</h1>'
+        );
         resolve();
       },
     };
-    index(eleventyConfig, { markdownTransforms: ["remark-parse"] });
+    index(eleventyConfig, { markdownTransforms: ["remark-slug"] });
   });
 });
 
@@ -25,7 +28,7 @@ test("setLibrary › disables broken method", (assert) => {
       assert.is(disable(), undefined);
     },
   };
-  index(eleventyConfig, { markdownTransforms: ["remark-parse"] });
+  index(eleventyConfig, { markdownTransforms: ["remark-slug"] });
 });
 
 test("addTransform › does nothing to regular content", async (assert) => {
@@ -36,7 +39,7 @@ test("addTransform › does nothing to regular content", async (assert) => {
         resolve();
       },
     };
-    index(eleventyConfig, { htmlTransforms: ["rehype-parse"] });
+    index(eleventyConfig, { htmlTransforms: ["rehype-format"] });
   });
 });
 
@@ -44,14 +47,39 @@ test("addTransform › parses and renders html", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
       addTransform: async (type, render) => {
-        const context = { outputPath: "index.html" };
+        const context = { inputPath: "index.md", outputPath: "index.html" };
         assert.is(
           await render.call(context, "<h1>Hello, world</h1>"),
-          "<html><head></head><body><h1>Hello, world</h1></body></html>"
+          `
+<html>
+  <head></head>
+  <body>
+    <h1>Hello, world</h1>
+  </body>
+</html>
+`
         );
         resolve();
       },
     };
-    index(eleventyConfig, { htmlTransforms: ["rehype-parse"] });
+    index(eleventyConfig, { htmlTransforms: ["rehype-format"] });
+  });
+});
+
+test("addTransform › duplicate words are reported via retext", async (assert) => {
+  await new Promise((resolve) => {
+    const eleventyConfig = {
+      addTransform: async (type, render) => {
+        const context = { inputPath: "index.md", outputPath: "index.html" };
+        await render.call(context, "<p>and and</p>");
+      },
+    };
+    index(eleventyConfig, {
+      reporter: (file) => {
+        assert.is(file.messages[0].message, "Expected `and` once, not twice");
+        resolve();
+      },
+      textTransforms: ["retext-repeated-words"],
+    });
   });
 });

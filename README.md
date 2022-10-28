@@ -4,12 +4,11 @@
 
 Use the [unified](https://unifiedjs.com/) ecosystem in Eleventy.
 
-You can render and transform:
+You can render, transform and lint:
 
 - markdown with the [remark](https://github.com/remarkjs/remark) ecosystem.
 - html with the [rehype](https://github.com/rehypejs/rehype) ecosystem.
-
-[retext](https://github.com/retextjs/retext) is not yet supported, raise an issue if you'd like this.
+- text with the [retext](https://github.com/retextjs/retext) ecosystem.
 
 ## Install
 
@@ -100,6 +99,65 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
     htmlTransforms: [
         'rehype-format'
+    ]
+  ]);
+};
+```
+
+### Configuring text transforms (retext plugins)
+
+```bash
+npm install eleventy-plugin-unified retext-repeated-words vfile-reporter
+```
+
+```javascript
+// .eleventy.config.cjs
+const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
+
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
+    reporter: 'vfile-reporter',
+    textTransforms: [
+        'retext-repeated-words'
+    ]
+  ]);
+};
+```
+
+or
+
+```javascript
+// .eleventy.config.cjs
+const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
+
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
+    reporter: (file) => {
+      console.log(file);
+    },
+    textTransforms: [
+        'retext-repeated-words'
+    ]
+  ]);
+};
+```
+
+### Configuring text parser language
+
+```bash
+npm install eleventy-plugin-unified retext-latin retext-repeated-words vfile-reporter
+```
+
+```javascript
+// .eleventy.config.cjs
+const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
+
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
+    textParser: 'retext-latin',
+    reporter: 'vfile-reporter',
+    textTransforms: [
+        'retext-repeated-words'
     ]
   ]);
 };

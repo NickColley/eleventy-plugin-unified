@@ -3,13 +3,28 @@
  * @param {Object} pluginOptions
  * @param {Array.<String>} pluginOptions.markdownTransforms
  * @param {Array.<String>} [pluginOptions.htmlTransforms]
+ * @param {Array.<String>} [pluginOptions.textParser] retext parser, defaults to retext-english
+ * @param {Array.<String>} [pluginOptions.textParser] retext parser, defaults to retext-english
  * @param {String} [pluginOptions.transformsDirectory]
  */
 function EleventyUnifiedPlugin(
   eleventyConfig,
-  { markdownTransforms, htmlTransforms, transformsDirectory } = {}
+  {
+    markdownTransforms,
+    htmlTransforms,
+    textTransforms,
+    textParser,
+    reporter,
+    transformsDirectory,
+  } = {}
 ) {
-  if (markdownTransforms instanceof Array && markdownTransforms.length) {
+  const hasMarkdownTransforms =
+    markdownTransforms instanceof Array && markdownTransforms.length > 0;
+  const hasHtmlTransforms =
+    htmlTransforms instanceof Array && htmlTransforms.length > 0;
+  const hasTextTransforms =
+    textTransforms instanceof Array && textTransforms.length > 0;
+  if (hasMarkdownTransforms) {
     eleventyConfig.setLibrary("md", {
       disable: () => {}, // Broken in 2.0.0 canary https://github.com/11ty/eleventy/issues/2613
       render: async (content, pageContext) => {
@@ -23,7 +38,7 @@ function EleventyUnifiedPlugin(
       },
     });
   }
-  if (htmlTransforms instanceof Array && htmlTransforms.length) {
+  if (hasHtmlTransforms || hasTextTransforms) {
     eleventyConfig.addTransform(
       "eleventy-plugin-unified",
       async function (content) {
@@ -37,6 +52,9 @@ function EleventyUnifiedPlugin(
         const { default: render } = await import("./rehype.js");
         return render(content, {
           htmlTransforms,
+          textTransforms,
+          textParser,
+          reporter,
           transformsDirectory,
           pageContext,
           eleventyConfig,
