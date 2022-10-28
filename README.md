@@ -56,9 +56,9 @@ It will render like this:
 
 ## Documentation
 
-### [Configure options for transforms](#configure-options-for-transforms)
+### [Configure options for transforms](#configure-options-for-transforms-1)
 
-### [Adding your own transforms](#adding-your-own-transforms)
+### [Adding your own transforms](#adding-your-own-transforms-1)
 
 ### [Using page context and eleventy data](./docs/eleventy.md)
 
