@@ -14,7 +14,7 @@ You can render and transform:
 ## Install
 
 ```bash
-npm install eleventy-plugin-unified
+npm install eleventy-plugin-unified remark-slug
 ```
 
 ```javascript
