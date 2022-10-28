@@ -47,7 +47,7 @@ export default function responsiveTables() {
 }
 ```
 
-## Add [aria-current="true"] for links tha match the current page
+## Style links that match the current page
 
 ```bash
 npm install eleventy-plugin-unified unist-util-visit deepmerge

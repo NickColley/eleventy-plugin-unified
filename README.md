@@ -54,12 +54,27 @@ It will render like this:
 [retext-english]: https://www.npmjs.com/package/retext-english
 [vfile reporter]: https://github.com/vfile/vfile#reporters
 
-## Examples
+## Documentation
 
-- [Using page context and eleventy data](./docs/eleventy.md)
-- [Transforming markdown with remark](./docs/markdown.md)
-- [Transforming html with rehype](./docs/html.md)
-- [Reporting and linting with retext](./docs/text.md)
+### [Configure options for transforms](#configure-options-for-transforms)
+
+### [Adding your own transforms](#adding-your-own-transforms)
+
+### [Using page context and eleventy data](./docs/eleventy.md)
+
+- [Logging the available data](./docs/eleventy.md#logging-the-available-data)
+- [Re-using eleventy filters](./docs/eleventy.md#re-using-eleventy-filters)
+
+### [Transforming markdown with remark](./docs/markdown.md)
+
+- [Wrapping a table with a responsive container](./docs/markdown.md#wrapping-a-table-with-a-responsive-container)
+- [Style links that match the current page](./docs/markdown.md#style-links-that-match-the-current-page)
+
+### [Transforming html with rehype](./docs/html.md)
+
+### [Reporting and linting with retext](./docs/text.md)
+
+- [Configuring text parser language](./docs/text.md#configuring-text-parser-language)
 
 ### Configure options for transforms
 
