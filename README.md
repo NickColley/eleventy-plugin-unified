@@ -60,7 +60,6 @@ It will render like this:
 - [Transforming markdown with remark](./docs/markdown.md)
 - [Transforming html with rehype](./docs/html.md)
 - [Reporting and linting with retext](./docs/text.md)
-- [Multiple transforms](./docs/example.md)
 
 ### Configure options for transforms
 
