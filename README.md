@@ -22,7 +22,9 @@ npm install eleventy-plugin-unified
 const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
 
 module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin);
+  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
+    "remark-slug", // Add [id] attributes to headings.
+  ]);
 };
 ```
 
