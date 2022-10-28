@@ -5,19 +5,6 @@ test("is a function", (assert) => {
   assert.is(typeof index, "function");
 });
 
-test("calls eleventy functions", (assert) => {
-  assert.plan(2);
-  const eleventyConfig = {
-    setLibrary: (...args) => {
-      assert.is(args[0], "md");
-    },
-    addTransform: (...args) => {
-      assert.is(args[0], "eleventy-plugin-unified");
-    },
-  };
-  index(eleventyConfig);
-});
-
 test("setLibrary › renders markdown", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
@@ -25,9 +12,8 @@ test("setLibrary › renders markdown", async (assert) => {
         assert.is(await render("# Hello, world"), "<h1>Hello, world</h1>");
         resolve();
       },
-      addTransform: () => {},
     };
-    index(eleventyConfig);
+    index(eleventyConfig, { markdownTransforms: ["remark-parse"] });
   });
 });
 
@@ -38,28 +24,25 @@ test("setLibrary › disables broken method", (assert) => {
     setLibrary: (type, { disable }) => {
       assert.is(disable(), undefined);
     },
-    addTransform: () => {},
   };
-  index(eleventyConfig);
+  index(eleventyConfig, { markdownTransforms: ["remark-parse"] });
 });
 
 test("addTransform › does nothing to regular content", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
-      setLibrary: () => {},
       addTransform: async (type, render) => {
         assert.is(await render("# Hello, world"), "# Hello, world");
         resolve();
       },
     };
-    index(eleventyConfig);
+    index(eleventyConfig, { htmlTransforms: ["rehype-parse"] });
   });
 });
 
 test("addTransform › parses and renders html", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
-      setLibrary: () => {},
       addTransform: async (type, render) => {
         const context = { outputPath: "index.html" };
         assert.is(
@@ -69,6 +52,6 @@ test("addTransform › parses and renders html", async (assert) => {
         resolve();
       },
     };
-    index(eleventyConfig);
+    index(eleventyConfig, { htmlTransforms: ["rehype-parse"] });
   });
 });

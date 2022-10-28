@@ -1,5 +1,10 @@
 import { join, parse } from "node:path";
 
+/**
+ * @param {Array.<String>} plugins
+ * @param {String} [transformsDirectory]
+ * @returns {Array} [plugin, options]
+ */
 export default async function importPlugins(
   plugins = [],
   transformsDirectory = "."

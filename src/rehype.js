@@ -3,7 +3,16 @@ import parse from "rehype-parse";
 import stringify from "rehype-stringify";
 import importPlugins from "./import-plugins.js";
 
-export default async function (
+/**
+ * @param {String} html html
+ * @param {Object} pluginOptions
+ * @param {Array.<String>} [pluginOptions.htmlTransforms]
+ * @param {String} [pluginOptions.transformsDirectory]
+ * @param {Object} [pluginOptions.pageContext]
+ * @param {Object} [pluginOptions.eleventyConfig]
+ * @returns {String} html
+ */
+export default async function rehype(
   html,
   { htmlTransforms, transformsDirectory, pageContext, eleventyConfig } = {}
 ) {

@@ -5,7 +5,16 @@ import stringify from "rehype-stringify";
 
 import importPlugins from "./import-plugins.js";
 
-export default async function (
+/**
+ * @param {String} markdown markdown
+ * @param {Object} pluginOptions
+ * @param {Array.<String>} [pluginOptions.markdownTransforms]
+ * @param {String} [pluginOptions.transformsDirectory]
+ * @param {Object} [pluginOptions.pageContext]
+ * @param {Object} [pluginOptions.eleventyConfig]
+ * @returns {String} html
+ */
+export default async function remark(
   markdown,
   { markdownTransforms, transformsDirectory, pageContext, eleventyConfig } = {}
 ) {
