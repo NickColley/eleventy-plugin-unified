@@ -21,219 +21,73 @@ npm install eleventy-plugin-unified remark-slug
 const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
 
 module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    "remark-slug", // Add [id] attributes to headings.
-  ]);
+  eleventyConfig.addPlugin(EleventyUnifiedPlugin, ["remark-slug"]);
 };
 ```
 
-### Full example
+Then with a markdown file with:
 
-```bash
-npm install eleventy-plugin-unified remark-slug rehype-format unist-util-visit
+```markdown
+# Hello, world
 ```
+
+It will render like this:
+
+```html
+<h1 id="hello-world">Hello, world</h1>
+```
+
+## Plugin options
+
+| Option              | Description                    | Default          |
+| ------------------- | ------------------------------ | ---------------- |
+| markdownTransforms  | [remark plugins]               | `[]`             |
+| htmlTransforms      | [rehype plugins]               | `[]`             |
+| textTransforms      | [retext plugins]               | `[]`             |
+| transformsDirectory | directory with your transforms | `"."`            |
+| textParser          | retext parser                  | [retext-english] |
+| reporter            | [vfile reporter]               | `undefined`      |
+
+[remark plugins]: https://unifiedjs.com/explore/keyword/remark
+[rehype plugins]: https://unifiedjs.com/explore/keyword/rehype
+[retext plugins]: https://unifiedjs.com/explore/keyword/retext
+[retext-english]: https://www.npmjs.com/package/retext-english
+[vfile reporter]: https://github.com/vfile/vfile#reporters
+
+## Examples
+
+- [Using page context and eleventy data](./docs/eleventy.md)
+- [Transforming markdown with remark](./docs/markdown.md)
+- [Transforming html with rehype](./docs/html.md)
+- [Reporting and linting with retext](./docs/text.md)
+- [Multiple transforms](./docs/example.md)
+
+### Configure options for transforms
 
 ```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, {
-    transformsDirectory: "./plugins/",
-    markdownTransforms: ["aria-current-links.js", "remark-slug"],
-    htmlTransforms: [["rehype-format", { indent: "\t" }]],
-  });
-};
+// .eleventy.js
+eleventyConfig.addPlugin(EleventyUnifiedPlugin, {
+  htmlTransforms: [["rehype-format", { indent: "\t" }]],
+});
 ```
+
+### Adding your own transforms
 
 ```javascript
-// ./plugins/aria-current-links.js
-import { join } from "node:path";
-import { visit } from "unist-util-visit";
-
-// If the link matches the current page set 'aria-current' to true
-export default function ariaCurrentLinks() {
-  const {
-    pageContext: { page },
-  } = this.data();
-  return (tree) => {
-    visit(tree, ["link", "linkReference"], (node) => {
-      const url = node?.url;
-      if (url && join(page.filePathStem) !== join(url)) {
-        return;
-      }
-      node.data = {
-        ...node.data,
-        hProperties: {
-          ...node.data.hProperties,
-          "aria-current": "true",
-        },
-      };
-    });
-  };
-}
-```
-
-### Configuring markdown transforms (remark plugins)
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    markdownTransforms: [
-        'remark-emoji'
-    ]
-  ]);
-};
-```
-
-### Configuring html transforms (rehype plugins)
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    htmlTransforms: [
-        'rehype-format'
-    ]
-  ]);
-};
-```
-
-### Configuring text transforms (retext plugins)
-
-```bash
-npm install eleventy-plugin-unified retext-repeated-words vfile-reporter
-```
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    reporter: 'vfile-reporter',
-    textTransforms: [
-        'retext-repeated-words'
-    ]
-  ]);
-};
+// .eleventy.js
+eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
+  "./plugins/responsive-tables.js",
+]);
 ```
 
 or
 
 ```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    reporter: (file) => {
-      console.log(file);
-    },
-    textTransforms: [
-        'retext-repeated-words'
-    ]
-  ]);
-};
-```
-
-### Configuring text parser language
-
-```bash
-npm install eleventy-plugin-unified retext-latin retext-repeated-words vfile-reporter
-```
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    textParser: 'retext-latin',
-    reporter: 'vfile-reporter',
-    textTransforms: [
-        'retext-repeated-words'
-    ]
-  ]);
-};
-```
-
-### Configuring options for a plugin
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    htmlTransforms: [
-        ["rehype-format", { indent: "\t" }]
-    ],
-  ]);
-};
-```
-
-### Configuring internal plugins
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    markdownTransforms: [
-        "./plugins/responsive-tables.js"
-    ],
-  ]);
-};
-```
-
-or
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, [
-    transformsDirectory: "./plugins",
-    markdownTransforms: [
-        "responsive-tables.js"
-    ],
-  ]);
-};
-```
-
-### Getting access to page context and eleventy config
-
-```bash
-npm install eleventy-plugin-unified unist-util-visit
-```
-
-```javascript
-// .eleventy.config.cjs
-const EleventyUnifiedPlugin = require("eleventy-plugin-unified");
-
-module.exports = function (eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyUnifiedPlugin, {
-    transformsDirectory: "./plugins/",
-    markdownTransforms: ["log-data.js"],
-  });
-};
-```
-
-```javascript
-// ./plugins/log-data.js
-
-export default function logData() {
-  const { pageContext, eleventyConfig } = this.data();
-  console.log({ pageContext, eleventyConfig });
-}
+// .eleventy.js
+eleventyConfig.addPlugin(EleventyUnifiedPlugin, {
+  transformsDirectory: "./plugins",
+  markdownTransforms: ["responsive-tables.js"],
+});
 ```
 
 ## Acknowledgements
