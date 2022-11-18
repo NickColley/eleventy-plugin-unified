@@ -58,7 +58,9 @@
     "remark-slug": "^7.0.1",
     "retext-repeated-words": "^4.2.0",
     "semantic-release": "^19.0.5",
-    "unist-util-visit": "^4.1.1"
+    "to-mock": "^1.6.2",
+    "unist-util-visit": "^4.1.1",
+    "vfile-reporter": "^7.0.4"
   },
   "release": {
     "branches": [

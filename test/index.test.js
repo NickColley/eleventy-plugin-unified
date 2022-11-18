@@ -1,4 +1,5 @@
 import test from "ava";
+import { toMock } from "to-mock";
 import index from "../src/index.cjs";
 
 test("is a function", (assert) => {
@@ -66,7 +67,7 @@ test("addTransform › parses and renders html", async (assert) => {
   });
 });
 
-test("addTransform › duplicate words are reported via retext", async (assert) => {
+test("reporter › duplicate words are reported via retext", async (assert) => {
   await new Promise((resolve) => {
     const eleventyConfig = {
       addTransform: async (type, render) => {
@@ -79,6 +80,56 @@ test("addTransform › duplicate words are reported via retext", async (assert) 
         assert.is(file.messages[0].message, "Expected `and` once, not twice");
         resolve();
       },
+      textTransforms: ["retext-repeated-words"],
+    });
+  });
+});
+
+test.serial("reporter › console.logs", async (assert) => {
+  await new Promise((resolve) => {
+    const MockedConsole = toMock(global.console);
+    const RealConsole = global.console;
+    MockedConsole.log = (log) => {
+      assert.is(log, "Expected `and` once, not twice");
+      global.console = RealConsole;
+      resolve();
+    };
+    const eleventyConfig = {
+      addTransform: async (type, render) => {
+        const context = { inputPath: "index.md", outputPath: "index.html" };
+        await render.call(context, "<p>and and</p>");
+      },
+    };
+
+    global.console = MockedConsole;
+    index(eleventyConfig, {
+      reporter: (file) => {
+        return file.messages[0].message;
+      },
+      textTransforms: ["retext-repeated-words"],
+    });
+  });
+});
+
+test.serial("reporter › vfile-reporter", async (assert) => {
+  await new Promise((resolve) => {
+    const MockedConsole = toMock(global.console);
+    const RealConsole = global.console;
+    MockedConsole.log = (log) => {
+      assert.truthy(log.includes("once, not twice"));
+      global.console = RealConsole;
+      resolve();
+    };
+    const eleventyConfig = {
+      addTransform: async (type, render) => {
+        const context = { inputPath: "index.md", outputPath: "index.html" };
+        await render.call(context, "<p>and and</p>");
+      },
+    };
+
+    global.console = MockedConsole;
+    index(eleventyConfig, {
+      reporter: "vfile-reporter",
       textTransforms: ["retext-repeated-words"],
     });
   });

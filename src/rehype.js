@@ -69,7 +69,10 @@ export default async function rehype(
     output?.messages.length > 0
   ) {
     output.path = pageContext.inputPath;
-    retextReporter(output);
+    const report = retextReporter(output);
+    if (typeof report !== "undefined") {
+      console.log(report);
+    }
   }
 
   return String(output);
