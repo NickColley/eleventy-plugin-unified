@@ -46,12 +46,13 @@ It will render like this:
 | textTransforms      | [retext plugins]               | `[]`             |
 | transformsDirectory | directory with your transforms | `"."`            |
 | textParser          | retext parser                  | [retext-english] |
-| reporter            | [vfile reporter]               | `undefined`      |
+| reporter            | [vfile reporter]               | [vfile-reporter] |
 
 [remark plugins]: https://unifiedjs.com/explore/keyword/remark
 [rehype plugins]: https://unifiedjs.com/explore/keyword/rehype
 [retext plugins]: https://unifiedjs.com/explore/keyword/retext
 [retext-english]: https://www.npmjs.com/package/retext-english
+[vfile-reporter]: https://github.com/vfile/vfile-reporter
 [vfile reporter]: https://github.com/vfile/vfile#reporters
 
 ---
@@ -76,6 +77,8 @@ It will render like this:
 
 ### [Reporting and linting with retext](./docs/text.md)
 
+- [Configuring the reporter](./docs/text.md#configuring-the-reporter)
+- [Turning off default reporter](./docs/text.md#turning-off-default-reporter)
 - [Configuring text parser language](./docs/text.md#configuring-text-parser-language)
 
 ### Configure options for transforms

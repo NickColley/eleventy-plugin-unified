@@ -34,7 +34,7 @@ export default async function rehype(
     htmlTransforms,
     textTransforms,
     textParser = "retext-english",
-    reporter,
+    reporter = "vfile-reporter",
     transformsDirectory,
     pageContext,
     eleventyConfig,

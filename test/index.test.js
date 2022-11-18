@@ -111,6 +111,29 @@ test.serial("reporter › console.logs", async (assert) => {
   });
 });
 
+test.serial("reporter › default reporter", async (assert) => {
+  await new Promise((resolve) => {
+    const MockedConsole = toMock(global.console);
+    const RealConsole = global.console;
+    MockedConsole.log = (log) => {
+      assert.truthy(log.includes("once, not twice"));
+      global.console = RealConsole;
+      resolve();
+    };
+    const eleventyConfig = {
+      addTransform: async (type, render) => {
+        const context = { inputPath: "index.md", outputPath: "index.html" };
+        await render.call(context, "<p>and and</p>");
+      },
+    };
+
+    global.console = MockedConsole;
+    index(eleventyConfig, {
+      textTransforms: ["retext-repeated-words"],
+    });
+  });
+});
+
 test.serial("reporter › vfile-reporter", async (assert) => {
   await new Promise((resolve) => {
     const MockedConsole = toMock(global.console);
@@ -133,4 +156,27 @@ test.serial("reporter › vfile-reporter", async (assert) => {
       textTransforms: ["retext-repeated-words"],
     });
   });
+});
+
+test.serial("reporter › disable reporter", async (assert) => {
+  const MockedConsole = toMock(global.console);
+  const RealConsole = global.console;
+  let consoleWasCalled = false;
+  MockedConsole.log = () => {
+    global.console = RealConsole;
+    consoleWasCalled = true;
+  };
+  const eleventyConfig = {
+    addTransform: async (type, render) => {
+      const context = { inputPath: "index.md", outputPath: "index.html" };
+      await render.call(context, "<p>and and</p>");
+    },
+  };
+
+  global.console = MockedConsole;
+  index(eleventyConfig, {
+    reporter: false,
+    textTransforms: ["retext-repeated-words"],
+  });
+  assert.false(consoleWasCalled);
 });

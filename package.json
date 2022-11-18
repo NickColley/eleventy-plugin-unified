@@ -38,7 +38,8 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "retext-english": "^4.1.0",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "vfile-reporter": "^7.0.4"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
@@ -59,8 +60,7 @@
     "retext-repeated-words": "^4.2.0",
     "semantic-release": "^19.0.5",
     "to-mock": "^1.6.2",
-    "unist-util-visit": "^4.1.1",
-    "vfile-reporter": "^7.0.4"
+    "unist-util-visit": "^4.1.1"
   },
   "release": {
     "branches": [
